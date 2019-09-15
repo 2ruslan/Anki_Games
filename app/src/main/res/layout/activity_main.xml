@@ -6,12 +6,38 @@
     android:layout_height="match_parent"
     tools:context=".MainActivity">
 
+<LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    >
 
-
-
-    <WebView
-        android:id="@+id/webW"
+    <Button
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:text="Settings"
+        android:onClick="OnClickSettings"
         />
+
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:text="Match"
+        android:onClick="OnClickMatchGame"
+        />
+
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:text="View"
+        android:onClick="OnClickVievCardsGame"
+        />
+
+
+</LinearLayout>
+
+
 </androidx.constraintlayout.widget.ConstraintLayout>

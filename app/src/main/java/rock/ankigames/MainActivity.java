@@ -4,9 +4,11 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.text.Html;
+import android.view.View;
 import android.webkit.WebView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -34,6 +36,9 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
         {
             start();
         }
+
+
+
     }
 
      public void onRequestPermissionsResult (int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
@@ -45,7 +50,10 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
      }
 
      void start(){
-        getInfo();
+
+         StaticHolder.init(this);
+
+        //getInfo();
      }
 
 
@@ -63,13 +71,27 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
          //TextView t = findViewById(R.id.tInfo);
          //t.setText(sb.toString());
 
-         WebView webW = findViewById(R.id.webW);
+      //   WebView webW = findViewById(R.id.webW);
 
          String dt = mAnkiDroid.test();
 
-         webW.loadData( dt, "text/html; charset=utf-8", "UTF-8");
+        // webW.loadData( dt, "text/html; charset=utf-8", "UTF-8");
 
       //   mAnkiDroid.removeDuplicates();
      }
+
+
+
+     public void OnClickSettings(View v){
+        startActivity(new Intent( this, Settings.class ));
+     }
+
+    public void OnClickMatchGame(View v){
+        //startActivityForResult(new Intent( this, Settings.class ));
+    }
+
+    public void OnClickVievCardsGame(View v){
+        //startActivityForResult(new Intent( this, Settings.class ));
+    }
 
 }
