@@ -1,0 +1,75 @@
+package rock.ankigames;
+
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
+
+import android.content.pm.PackageManager;
+import android.os.Bundle;
+import android.text.Html;
+import android.webkit.WebView;
+import android.widget.TextView;
+import android.widget.Toast;
+
+import java.util.Map;
+
+public class MainActivity extends AppCompatActivity implements ActivityCompat.OnRequestPermissionsResultCallback {
+
+    private AnkiDroidHelper mAnkiDroid;
+    private static final int AD_PERM_REQUEST = 0;
+
+
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
+
+        mAnkiDroid = new AnkiDroidHelper(this);
+
+        if (mAnkiDroid.shouldRequestPermission()) {
+            mAnkiDroid.requestPermission(MainActivity.this, AD_PERM_REQUEST);
+        }
+        else
+        {
+            start();
+        }
+    }
+
+     public void onRequestPermissionsResult (int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+         if (requestCode == AD_PERM_REQUEST && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+             start();
+         } else {
+                finish();
+         }
+     }
+
+     void start(){
+        getInfo();
+     }
+
+
+
+     void getInfo(){
+         Map<Long, String> decks =mAnkiDroid.getDeckList();
+
+         StringBuffer sb = new StringBuffer();
+
+         for(Map.Entry<Long, String> d : decks.entrySet())
+         {
+            sb.append(d.getValue() + "\r");
+         }
+
+         //TextView t = findViewById(R.id.tInfo);
+         //t.setText(sb.toString());
+
+         WebView webW = findViewById(R.id.webW);
+
+         String dt = mAnkiDroid.test();
+
+         webW.loadData( dt, "text/html; charset=utf-8", "UTF-8");
+
+      //   mAnkiDroid.removeDuplicates();
+     }
+
+}
