@@ -73,7 +73,6 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
 
       //   WebView webW = findViewById(R.id.webW);
 
-         String dt = mAnkiDroid.test();
 
         // webW.loadData( dt, "text/html; charset=utf-8", "UTF-8");
 
@@ -83,7 +82,7 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
 
 
      public void OnClickSettings(View v){
-        startActivity(new Intent( this, Settings.class ));
+     //   startActivity(new Intent( this, Settings.class ));
      }
 
     public void OnClickMatchGame(View v){
