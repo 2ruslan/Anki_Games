@@ -35,12 +35,12 @@ public class AnkiHelper {
                 long deckID = decksCursor.getLong(decksCursor.getColumnIndex(FlashCardsContract.Deck.DECK_ID));
                 String deckName = decksCursor.getString(decksCursor.getColumnIndex(FlashCardsContract.Deck.DECK_NAME));
 
-                //String qs = decksCursor.getString(decksCursor.getColumnIndex(FlashCardsContract.Deck.));
-
                 d.add(new DeckInfo(deckName, deckID));
 
             } while (decksCursor.moveToNext());
         }
+
+        decksCursor.close();
 
         return d;
     }
@@ -62,40 +62,52 @@ public class AnkiHelper {
                 String modelName = decksCursor.getString(decksCursor.getColumnIndex(FlashCardsContract.Model.NAME));
                 String filds = decksCursor.getString(decksCursor.getColumnIndex(FlashCardsContract.Model.FIELD_NAMES));
 
+                ModelInfo mm = new ModelInfo(modelId, modelName, filds.split(_DELIMITER ) );
 
+                setAQFields(modelId, mm);
 
-                m.add(new ModelInfo(modelId, modelName, filds.split(_DELIMITER ) ));
+                m.add(mm);
 
             } while (decksCursor.moveToNext());
         }
 
+        decksCursor.close();
+
         return m;
     }
 
-    public ArrayList<CardInfo> GetCardlList() {
+    public void setAQFields(long id, ModelInfo m) {
         ContentResolver mResolver = mContext.getContentResolver();
-        ArrayList c = new ArrayList<CardInfo>();
+
+        Uri uri = Uri.withAppendedPath(FlashCardsContract.Model.CONTENT_URI, Long.toString(id));
+        Uri cardsUri = Uri.withAppendedPath(uri, "templates");
 
         Cursor decksCursor = mResolver.query(
-                FlashCardsContract.CardTemplate.CONTENT_TYPE,
+                cardsUri,
                 null,
                 null,
                 null,
                 null);
         if (decksCursor.moveToFirst()) {
 
-            do {
-                long modelId = decksCursor.getLong(decksCursor.getColumnIndex(FlashCardsContract.Model._ID));
-                String filds = decksCursor.getString(decksCursor.getColumnIndex(FlashCardsContract.Model.FIELD_NAMES));
+            String a = decksCursor.getString(decksCursor.getColumnIndex(FlashCardsContract.CardTemplate.ANSWER_FORMAT));
+            String q = decksCursor.getString(decksCursor.getColumnIndex(FlashCardsContract.CardTemplate.QUESTION_FORMAT));
+
+            int pos = a.indexOf("{{FrontSide}}");
+            if (pos >= 0)
+                pos += 13;
+            pos = a.indexOf("{{", pos);
+            int pose = a.indexOf("}}", pos);
+            m.setAnswerField(a.substring(pos + 2, pose));
 
 
+            pos = q.indexOf("{{");
+            pose = q.indexOf("}}", pos);
+            m.setQuestField(q.substring(pos + 2, pose));
 
-                c.add(new ModelInfo(modelId, modelName, filds.split(_DELIMITER ) ));
-
-            } while (decksCursor.moveToNext());
         }
 
-        return c;
+        decksCursor.close();
     }
 
 
