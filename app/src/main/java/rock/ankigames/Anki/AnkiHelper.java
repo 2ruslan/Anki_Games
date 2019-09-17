@@ -12,7 +12,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Random;
 
- class AnkiHelper {
+ public class AnkiHelper {
 
     private Context mContext;
 

@@ -1,4 +1,4 @@
-package rock.ankigames.Anki;
+package rock.ankigames;
 
 import android.content.Context;
 
