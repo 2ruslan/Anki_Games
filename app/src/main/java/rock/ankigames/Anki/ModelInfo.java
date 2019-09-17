@@ -1,22 +1,15 @@
-package rock.ankigames;
+package rock.ankigames.Anki;
 
 public class ModelInfo {
 
-    public ModelInfo(long id, String name, String[] fileds ){
+    public ModelInfo(long id, String[] fieleds ){
         _id = id;
-        _name = name;
-        _fields = fileds;
+        _fields = fieleds;
     }
 
     private long _id;
     public long getId(){
         return  _id;
-    }
-
-
-    private  String _name;
-    public String getName(){
-        return _name;
     }
 
     private String[] _fields;

@@ -1,4 +1,4 @@
-package rock.ankigames;
+package rock.ankigames.Anki;
 
 import android.content.ContentResolver;
 import android.content.Context;
@@ -8,20 +8,35 @@ import android.net.Uri;
 import com.ichi2.anki.FlashCardsContract;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 public class AnkiHelper {
 
     Context mContext;
 
+    private static ArrayList<DeckInfo> _decks;
+    private static Map<Long, ModelInfo> _models;
+    private static Map<Long, NoteInfo> _notes;
+
     static final String _DELIMITER = "\u001F";
 
     public AnkiHelper(Context c){
         mContext = c;
+        initDecks();
+        initModels();
+
+        initNotes("English with Mary");
     }
 
-    public ArrayList<DeckInfo> GetDeckList() {
+    public void OnDestroy(){
+        _decks = null;
+        _models = null;
+    }
+
+    public void initDecks() {
         ContentResolver mResolver = mContext.getContentResolver();
-        ArrayList d = new ArrayList<DeckInfo>();
+        _decks = new ArrayList<>();
 
         Cursor decksCursor = mResolver.query(
                             FlashCardsContract.Deck.CONTENT_ALL_URI,
@@ -35,19 +50,18 @@ public class AnkiHelper {
                 long deckID = decksCursor.getLong(decksCursor.getColumnIndex(FlashCardsContract.Deck.DECK_ID));
                 String deckName = decksCursor.getString(decksCursor.getColumnIndex(FlashCardsContract.Deck.DECK_NAME));
 
-                d.add(new DeckInfo(deckName, deckID));
+                _decks.add(new DeckInfo(deckName, deckID));
 
             } while (decksCursor.moveToNext());
         }
 
         decksCursor.close();
 
-        return d;
     }
 
-    public ArrayList<ModelInfo> GetModelList() {
+    public void initModels() {
         ContentResolver mResolver = mContext.getContentResolver();
-        ArrayList m = new ArrayList<ModelInfo>();
+        _models = new HashMap<>();
 
         Cursor decksCursor = mResolver.query(
                 FlashCardsContract.Model.CONTENT_URI,
@@ -59,27 +73,24 @@ public class AnkiHelper {
 
             do {
                 long modelId = decksCursor.getLong(decksCursor.getColumnIndex(FlashCardsContract.Model._ID));
-                String modelName = decksCursor.getString(decksCursor.getColumnIndex(FlashCardsContract.Model.NAME));
-                String filds = decksCursor.getString(decksCursor.getColumnIndex(FlashCardsContract.Model.FIELD_NAMES));
+                String fields = decksCursor.getString(decksCursor.getColumnIndex(FlashCardsContract.Model.FIELD_NAMES));
 
-                ModelInfo mm = new ModelInfo(modelId, modelName, filds.split(_DELIMITER ) );
+                ModelInfo mm = new ModelInfo(modelId, fields.split(_DELIMITER ) );
 
-                setAQFields(modelId, mm);
+                setAQ2model(mm);
 
-                m.add(mm);
+                _models.put(modelId, mm);
 
             } while (decksCursor.moveToNext());
         }
 
         decksCursor.close();
-
-        return m;
     }
 
-    public void setAQFields(long id, ModelInfo m) {
+    public void setAQ2model(ModelInfo m) {
         ContentResolver mResolver = mContext.getContentResolver();
 
-        Uri uri = Uri.withAppendedPath(FlashCardsContract.Model.CONTENT_URI, Long.toString(id));
+        Uri uri = Uri.withAppendedPath(FlashCardsContract.Model.CONTENT_URI, Long.toString(m.getId()));
         Uri cardsUri = Uri.withAppendedPath(uri, "templates");
 
         Cursor decksCursor = mResolver.query(
@@ -110,6 +121,46 @@ public class AnkiHelper {
         decksCursor.close();
     }
 
+    public void initNotes(String deckName) {
+        ContentResolver mResolver = mContext.getContentResolver();
+
+        _notes = new HashMap<>();
+        long pos = 0;
+
+        Cursor decksCursor = mResolver.query(
+                FlashCardsContract.Note.CONTENT_URI,
+                null,
+                "deck:\"" + deckName + "\"",
+                null,
+                null);
+        if (decksCursor.moveToFirst()) {
+
+            do {
+
+                long mid = decksCursor.getLong(decksCursor.getColumnIndex(FlashCardsContract.Note.MID));
+                String fields = decksCursor.getString(decksCursor.getColumnIndex(FlashCardsContract.Note.FLDS));
+                String[] flds = fields.split(_DELIMITER);
+
+                ModelInfo m = _models.get(mid);
+
+                NoteInfo n = new NoteInfo(
+                        getTrash(flds[m.getQuestFieldNum()]),
+                        getTrash(flds[m.getAnswerFieldNum()])
+                );
+
+                _notes.put(pos++, n);
+
+            } while (decksCursor.moveToNext());
+        }
+
+        decksCursor.close();
+    }
+
+    private String getTrash(String s){
+        return s
+                .replace("<b>", "")
+                .replace("</b>", "");
+    }
 
 
 }

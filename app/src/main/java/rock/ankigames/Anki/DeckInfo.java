@@ -1,4 +1,4 @@
-package rock.ankigames;
+package rock.ankigames.Anki;
 
 public class DeckInfo {
 
