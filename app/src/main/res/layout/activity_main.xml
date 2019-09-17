@@ -12,12 +12,11 @@
     android:orientation="vertical"
     >
 
-    <Button
+    <Spinner
+        android:id="@+id/spDeck"
+        android:layout_margin="4dp"
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1"
-        android:text="Settings"
-        android:onClick="OnClickSettings"
+        android:layout_height="wrap_content"
         />
 
     <Button

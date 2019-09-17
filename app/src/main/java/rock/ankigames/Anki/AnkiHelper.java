@@ -14,16 +14,16 @@ import java.util.Random;
 
  public class AnkiHelper {
 
-    private Context mContext;
+    private static Context mContext;
 
     private static ArrayList<DeckInfo> _decks;
     private static Map<Long, ModelInfo> _models;
     private static Map<Integer, NoteInfo> _notes;
-    private Random _rand = new Random();
+    private static Random _rand = new Random();
 
     private static final String _DELIMITER = "\u001F";
 
-    public AnkiHelper(Context c){
+    public static void init(Context c){
         mContext = c;
         initDecks();
         initModels();
@@ -33,12 +33,20 @@ import java.util.Random;
         getRandomNotes(7);
     }
 
-    public void OnDestroy(){
+    public static void OnDestroy(){
         _decks = null;
         _models = null;
     }
 
-    private void initDecks() {
+    public static ArrayList<String> getDeckNames(){
+        ArrayList<String> res = new ArrayList<>();
+        for (DeckInfo d : _decks)
+            res.add(d.getName());
+
+        return res;
+    }
+
+     private static void initDecks() {
         ContentResolver mResolver = mContext.getContentResolver();
         _decks = new ArrayList<>();
 
@@ -63,7 +71,7 @@ import java.util.Random;
 
     }
 
-    public void initModels() {
+    private static void initModels() {
         ContentResolver mResolver = mContext.getContentResolver();
         _models = new HashMap<>();
 
@@ -91,7 +99,7 @@ import java.util.Random;
         decksCursor.close();
     }
 
-    private void setAQ2model(ModelInfo m) {
+    private static void setAQ2model(ModelInfo m) {
         ContentResolver mResolver = mContext.getContentResolver();
 
         Uri uri = Uri.withAppendedPath(FlashCardsContract.Model.CONTENT_URI, Long.toString(m.getId()));
@@ -125,7 +133,12 @@ import java.util.Random;
         decksCursor.close();
     }
 
-    private void initNotes(String deckName) {
+    private static String _deckName = "!@#$%^&";
+    public static void initNotes(String deckName) {
+
+        if (_deckName.equals(deckName))
+            return;
+
         ContentResolver mResolver = mContext.getContentResolver();
 
         _notes = new HashMap<>();
@@ -160,13 +173,13 @@ import java.util.Random;
         decksCursor.close();
     }
 
-    private String getCleanWord(String s){
+    private static String getCleanWord(String s){
         return s
                 .replace("<b>", "")
                 .replace("</b>", "");
     }
 
-    public ArrayList<NoteInfo> getRandomNotes(int qnt){
+    public static ArrayList<NoteInfo> getRandomNotes(int qnt){
         ArrayList<NoteInfo> words = new ArrayList<>();
 
         int[] rnds = new int[qnt];
