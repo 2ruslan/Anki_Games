@@ -10,16 +10,18 @@ import com.ichi2.anki.FlashCardsContract;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Random;
 
-public class AnkiHelper {
+ class AnkiHelper {
 
-    Context mContext;
+    private Context mContext;
 
     private static ArrayList<DeckInfo> _decks;
     private static Map<Long, ModelInfo> _models;
-    private static Map<Long, NoteInfo> _notes;
+    private static Map<Integer, NoteInfo> _notes;
+    private Random _rand = new Random();
 
-    static final String _DELIMITER = "\u001F";
+    private static final String _DELIMITER = "\u001F";
 
     public AnkiHelper(Context c){
         mContext = c;
@@ -27,6 +29,8 @@ public class AnkiHelper {
         initModels();
 
         initNotes("English with Mary");
+
+        getRandomNotes(7);
     }
 
     public void OnDestroy(){
@@ -34,7 +38,7 @@ public class AnkiHelper {
         _models = null;
     }
 
-    public void initDecks() {
+    private void initDecks() {
         ContentResolver mResolver = mContext.getContentResolver();
         _decks = new ArrayList<>();
 
@@ -87,7 +91,7 @@ public class AnkiHelper {
         decksCursor.close();
     }
 
-    public void setAQ2model(ModelInfo m) {
+    private void setAQ2model(ModelInfo m) {
         ContentResolver mResolver = mContext.getContentResolver();
 
         Uri uri = Uri.withAppendedPath(FlashCardsContract.Model.CONTENT_URI, Long.toString(m.getId()));
@@ -121,11 +125,11 @@ public class AnkiHelper {
         decksCursor.close();
     }
 
-    public void initNotes(String deckName) {
+    private void initNotes(String deckName) {
         ContentResolver mResolver = mContext.getContentResolver();
 
         _notes = new HashMap<>();
-        long pos = 0;
+        int pos = 0;
 
         Cursor decksCursor = mResolver.query(
                 FlashCardsContract.Note.CONTENT_URI,
@@ -144,8 +148,8 @@ public class AnkiHelper {
                 ModelInfo m = _models.get(mid);
 
                 NoteInfo n = new NoteInfo(
-                        getTrash(flds[m.getQuestFieldNum()]),
-                        getTrash(flds[m.getAnswerFieldNum()])
+                        getCleanWord(flds[m.getQuestFieldNum()]),
+                        getCleanWord(flds[m.getAnswerFieldNum()])
                 );
 
                 _notes.put(pos++, n);
@@ -156,11 +160,36 @@ public class AnkiHelper {
         decksCursor.close();
     }
 
-    private String getTrash(String s){
+    private String getCleanWord(String s){
         return s
                 .replace("<b>", "")
                 .replace("</b>", "");
     }
 
+    public ArrayList<NoteInfo> getRandomNotes(int qnt){
+        ArrayList<NoteInfo> words = new ArrayList<>();
+
+        int[] rnds = new int[qnt];
+        for (int i = 0; i < qnt; i++) {
+            boolean flg;
+            do {
+                int r = _rand.nextInt(_notes.size());
+
+                flg = true;
+                for (int k = 0; k < i; k++)
+                    if (rnds[k] == r)
+                        flg = false;
+
+                if (flg)
+                    rnds[i] = r;
+
+            }while (!flg);
+        }
+
+        for (int i = 0; i < qnt; i++)
+            words.add(_notes.get(rnds[i]));
+
+        return words;
+    }
 
 }
