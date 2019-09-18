@@ -2,6 +2,7 @@ package rock.ankigames.MatchGame;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.TextView;
@@ -11,7 +12,10 @@ import java.util.Random;
 
 import rock.ankigames.Anki.AnkiHelper;
 import rock.ankigames.Anki.NoteInfo;
+import rock.ankigames.EndGameActivity;
+import rock.ankigames.Helper;
 import rock.ankigames.R;
+
 
 public class MatchGame extends AppCompatActivity {
 
@@ -33,7 +37,13 @@ public class MatchGame extends AppCompatActivity {
         initBottoms();
 
         showNotes();
+    }
 
+    private void end(){
+        Intent i = new Intent(this, EndGameActivity.class);
+        i.putExtra(EndGameActivity._GAME_TYPE, Helper.GameType.match.getValue());
+        startActivity(i);
+        finish();
     }
 
     private void initBottoms(){
@@ -93,6 +103,14 @@ public class MatchGame extends AppCompatActivity {
             if (isClearSel)
                 for (MatchWordTextView t : _buttons)
                     t.setIsSelect(false);
+
+            boolean isEnd = true;
+            for (MatchWordTextView t : _buttons)
+                if (t.getVisibility() == View.VISIBLE)
+                    isEnd = false;
+
+            if (isEnd)
+                end();
 
         }
     }

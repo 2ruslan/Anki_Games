@@ -9,9 +9,10 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".DeskSelect"></activity>
-        <activity android:name=".CardViewGame" />
-        <activity android:name="rock.ankigames.MatchGame.MatchGame" />
+        <activity android:name=".EndGameActivity"></activity>
+        <activity android:name=".DeskSelect" />
+        <activity android:name=".ViewCardsGame.CardViewGame" />
+        <activity android:name=".MatchGame.MatchGame" />
         <activity android:name=".Settings" />
         <activity android:name=".MainActivity">
             <intent-filter>

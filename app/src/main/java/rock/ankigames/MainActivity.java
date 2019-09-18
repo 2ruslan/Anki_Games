@@ -44,12 +44,8 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
      }
 
      void start(){
-
          AnkiHelper.init(this);
-
          initSppinerDeck();
-
-        //getInfo();
      }
 
     private void initSppinerDeck(){
@@ -63,14 +59,12 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
         return spinnerDeck.getSelectedItem().toString();
     }
 
-
     public void OnClickMatchGame(View v){
-        AnkiHelper.initNotes(getCurrentDeckName());
-        startActivity(new Intent(this, MatchGame.class));
+        Helper.startGame(this, getCurrentDeckName(), Helper.GameType.match);
     }
 
     public void OnClickVievCardsGame(View v){
-        //startActivityForResult(new Intent( this, Settings.class ));
+        Helper.startGame(this, getCurrentDeckName(), Helper.GameType.match);
     }
 
 }

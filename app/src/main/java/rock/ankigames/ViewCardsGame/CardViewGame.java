@@ -1,8 +1,10 @@
-package rock.ankigames;
+package rock.ankigames.ViewCardsGame;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
+
+import rock.ankigames.R;
 
 public class CardViewGame extends AppCompatActivity {
 
