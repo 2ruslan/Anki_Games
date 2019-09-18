@@ -43,18 +43,18 @@ public class MatchWordTextView extends TextView {
         int fontSize;
         if (txt.length() > 20) {
             if (fs < 50)
-                fontSize = 14;
-            else
                 fontSize = 16;
+            else
+                fontSize = 18;
         }
         else
         {
             if (fs < 30)
-                fontSize = 14;
-            else if (fs < 60)
                 fontSize = 16;
-            else
+            else if (fs < 60)
                 fontSize = 18;
+            else
+                fontSize = 20;
         }
 
         this.setTextSize( TypedValue.COMPLEX_UNIT_SP,fontSize);

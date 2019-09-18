@@ -48,7 +48,7 @@ public class MatchGame extends Activity {
 
         Helper.endGame(this, Helper.GameType.match, result, best);
 
-        if (best < result)
+        if (result < best || best == PreferencesHelper._NO_INT_VALUE)
             PreferencesHelper.setRecordMatch(result);
     }
 

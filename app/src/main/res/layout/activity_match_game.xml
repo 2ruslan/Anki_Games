@@ -13,6 +13,7 @@
         android:layout_margin="4dp"
         >
 
+
         <rock.ankigames.MatchGame.MatchWordTextView
             android:id="@+id/btW0"
             android:layout_width="0dp"
@@ -24,6 +25,7 @@
             android:singleLine="false"
             android:onClick="OnWordClick"
             android:background="@drawable/match_back_normal"
+            android:padding="4dp"
             android:layout_margin="4dp"
             />
         <rock.ankigames.MatchGame.MatchWordTextView
@@ -37,6 +39,7 @@
             android:singleLine="false"
             android:onClick="OnWordClick"
             android:background="@drawable/match_back_normal"
+            android:padding="4dp"
             android:layout_margin="4dp"
             />
         <rock.ankigames.MatchGame.MatchWordTextView
@@ -50,6 +53,7 @@
             android:singleLine="false"
             android:onClick="OnWordClick"
             android:background="@drawable/match_back_normal"
+            android:padding="4dp"
             android:layout_margin="4dp"
             />
 
@@ -64,6 +68,7 @@
             android:singleLine="false"
             android:onClick="OnWordClick"
             android:background="@drawable/match_back_normal"
+            android:padding="4dp"
             android:layout_margin="4dp"
             />
         <rock.ankigames.MatchGame.MatchWordTextView
@@ -77,6 +82,7 @@
             android:singleLine="false"
             android:onClick="OnWordClick"
             android:background="@drawable/match_back_normal"
+            android:padding="4dp"
             android:layout_margin="4dp"
             />
         <rock.ankigames.MatchGame.MatchWordTextView
@@ -90,6 +96,7 @@
             android:singleLine="false"
             android:onClick="OnWordClick"
             android:background="@drawable/match_back_normal"
+            android:padding="4dp"
             android:layout_margin="4dp"
             />
 
@@ -104,6 +111,7 @@
             android:singleLine="false"
             android:onClick="OnWordClick"
             android:background="@drawable/match_back_normal"
+            android:padding="4dp"
             android:layout_margin="4dp"
             />
 
@@ -118,6 +126,7 @@
             android:singleLine="false"
             android:onClick="OnWordClick"
             android:background="@drawable/match_back_normal"
+            android:padding="4dp"
             android:layout_margin="4dp"
             />
 
@@ -132,6 +141,7 @@
             android:singleLine="false"
             android:onClick="OnWordClick"
             android:background="@drawable/match_back_normal"
+            android:padding="4dp"
             android:layout_margin="4dp"
             />
 
@@ -146,6 +156,7 @@
             android:singleLine="false"
             android:onClick="OnWordClick"
             android:background="@drawable/match_back_normal"
+            android:padding="4dp"
             android:layout_margin="4dp"
             />
 
@@ -160,6 +171,7 @@
             android:singleLine="false"
             android:onClick="OnWordClick"
             android:background="@drawable/match_back_normal"
+            android:padding="4dp"
             android:layout_margin="4dp"
             />
         <rock.ankigames.MatchGame.MatchWordTextView
@@ -173,6 +185,7 @@
             android:singleLine="false"
             android:onClick="OnWordClick"
             android:background="@drawable/match_back_normal"
+            android:padding="4dp"
             android:layout_margin="4dp"
             />
     </GridLayout>

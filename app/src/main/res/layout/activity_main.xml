@@ -11,22 +11,31 @@
         android:layout_margin="4dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+
         />
 
-    <Button
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1"
+        >
+
+    </LinearLayout>
+
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         android:text="Match"
         android:onClick="OnClickMatchGame"
+        android:layout_margin="4dp"
         />
 
-    <Button
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1"
-        android:text="View"
-        android:onClick="OnClickVievCardsGame"
-        />
+        >
+
+    </LinearLayout>
 
 </LinearLayout>
