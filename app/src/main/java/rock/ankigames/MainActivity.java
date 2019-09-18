@@ -10,10 +10,9 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Spinner;
-import android.widget.Toast;
 
+import rock.ankigames.MatchGame.MatchGame;
 import rock.ankigames.Anki.AnkiHelper;
-import rock.ankigames.Anki.DeckInfo;
 
 public class MainActivity extends AppCompatActivity implements ActivityCompat.OnRequestPermissionsResultCallback {
 

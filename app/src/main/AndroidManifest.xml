@@ -11,7 +11,7 @@
         android:theme="@style/AppTheme">
         <activity android:name=".DeskSelect"></activity>
         <activity android:name=".CardViewGame" />
-        <activity android:name=".MatchGame" />
+        <activity android:name="rock.ankigames.MatchGame.MatchGame" />
         <activity android:name=".Settings" />
         <activity android:name=".MainActivity">
             <intent-filter>
