@@ -34,7 +34,7 @@ public class Helper {
         ;
 
         private final int value;
-        private GameType(int value) {
+        GameType(int value) {
             this.value = value;
         }
 
@@ -54,5 +54,12 @@ public class Helper {
             c.startActivity(new Intent(c, MatchGame.class));
         else if (game == GameType.cardView)
             c.startActivity(new Intent(c, CardViewGame.class));
+    }
+
+    public static void endGame(Activity a, GameType g){
+        Intent i = new Intent(a, EndGameActivity.class);
+        i.putExtra(EndGameActivity._GAME_TYPE, g.getValue());
+        a.startActivity(i);
+        a.finish();
     }
 }

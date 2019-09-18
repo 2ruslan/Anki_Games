@@ -1,12 +1,11 @@
 package rock.ankigames.ViewCardsGame;
 
-import androidx.appcompat.app.AppCompatActivity;
-
+import android.app.Activity;
 import android.os.Bundle;
 
 import rock.ankigames.R;
 
-public class CardViewGame extends AppCompatActivity {
+public class CardViewGame extends Activity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

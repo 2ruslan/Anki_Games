@@ -1,20 +1,18 @@
 package rock.ankigames;
 
 import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 
-import android.content.Intent;
+import android.app.Activity;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Spinner;
 
-import rock.ankigames.MatchGame.MatchGame;
 import rock.ankigames.Anki.AnkiHelper;
 
-public class MainActivity extends AppCompatActivity implements ActivityCompat.OnRequestPermissionsResultCallback {
+public class MainActivity extends Activity implements ActivityCompat.OnRequestPermissionsResultCallback {
 
     private static final int AD_PERM_REQUEST = 0;
     Spinner spinnerDeck;
