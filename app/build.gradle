@@ -28,4 +28,5 @@ dependencies {
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.1.1'
 
     implementation 'com.ichi2.anki:api:1.1.0alpha6'
+    implementation 'org.jsoup:jsoup:1.10.3'
 }

@@ -7,6 +7,8 @@ import android.net.Uri;
 
 import com.ichi2.anki.FlashCardsContract;
 
+import org.jsoup.Jsoup;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
@@ -16,7 +18,7 @@ import java.util.Random;
 
     private static Context mContext;
 
-    private static ArrayList<DeckInfo> _decks;
+    private static ArrayList<String> _decks;
     private static Map<Long, ModelInfo> _models;
     private static Map<Integer, NoteInfo> _notes;
     private static Random _rand = new Random();
@@ -39,11 +41,7 @@ import java.util.Random;
     }
 
     public static ArrayList<String> getDeckNames(){
-        ArrayList<String> res = new ArrayList<>();
-        for (DeckInfo d : _decks)
-            res.add(d.getName());
-
-        return res;
+        return _decks;
     }
 
      private static void initDecks() {
@@ -59,11 +57,8 @@ import java.util.Random;
         if (decksCursor.moveToFirst()) {
 
             do {
-                long deckID = decksCursor.getLong(decksCursor.getColumnIndex(FlashCardsContract.Deck.DECK_ID));
                 String deckName = decksCursor.getString(decksCursor.getColumnIndex(FlashCardsContract.Deck.DECK_NAME));
-
-                _decks.add(new DeckInfo(deckName, deckID));
-
+                _decks.add(deckName);
             } while (decksCursor.moveToNext());
         }
 
@@ -174,9 +169,9 @@ import java.util.Random;
     }
 
     private static String getCleanWord(String s){
-        return s
-                .replace("<b>", "")
-                .replace("</b>", "");
+        String result =  Jsoup.parse(s).text();
+
+        return result;
     }
 
     public static ArrayList<NoteInfo> getRandomNotes(int qnt){
