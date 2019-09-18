@@ -10,6 +10,7 @@
         android:layout_height="match_parent"
         android:columnCount="3"
         android:rowCount="4"
+        android:layout_margin="4dp"
         >
 
         <rock.ankigames.MatchGame.MatchWordTextView

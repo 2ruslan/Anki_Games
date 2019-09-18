@@ -3,7 +3,10 @@ package rock.ankigames.MatchGame;
 import android.content.Context;
 import android.graphics.Canvas;
 import android.util.AttributeSet;
+import android.util.TypedValue;
 import android.widget.TextView;
+
+import java.util.Random;
 
 import rock.ankigames.Anki.NoteInfo;
 import rock.ankigames.R;
@@ -31,7 +34,30 @@ public class MatchWordTextView extends TextView {
 
     public void setAnkiNote(NoteInfo n, boolean isShowBack){
         _note = n;
-         this.setText(isShowBack ? _note.getAnswer() : _note.getQuestion() );
+        String txt = isShowBack ? _note.getAnswer() : _note.getQuestion();
+
+        this.setText( txt);
+
+        Random rnd = new Random();
+        int fs = rnd.nextInt(100);
+        int fontSize;
+        if (txt.length() > 20) {
+            if (fs < 50)
+                fontSize = 14;
+            else
+                fontSize = 16;
+        }
+        else
+        {
+            if (fs < 30)
+                fontSize = 14;
+            else if (fs < 60)
+                fontSize = 16;
+            else
+                fontSize = 18;
+        }
+
+        this.setTextSize( TypedValue.COMPLEX_UNIT_SP,fontSize);
     }
 
     public void setIsSelect(boolean sel){

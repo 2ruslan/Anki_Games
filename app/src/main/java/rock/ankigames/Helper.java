@@ -56,9 +56,11 @@ public class Helper {
             c.startActivity(new Intent(c, CardViewGame.class));
     }
 
-    public static void endGame(Activity a, GameType g){
+    public static void endGame(Activity a, GameType g, int timeResult, int timeBest){
         Intent i = new Intent(a, EndGameActivity.class);
         i.putExtra(EndGameActivity._GAME_TYPE, g.getValue());
+        i.putExtra(EndGameActivity._GAME_TIME, timeResult);
+        i.putExtra(EndGameActivity._RECORD_TIME, timeBest);
         a.startActivity(i);
         a.finish();
     }

@@ -1,23 +1,26 @@
 package rock.ankigames.MatchGame;
 
 import android.app.Activity;
-import android.content.Intent;
+
 import android.os.Bundle;
 import android.view.View;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Random;
 
 import rock.ankigames.Anki.AnkiHelper;
 import rock.ankigames.Anki.NoteInfo;
-import rock.ankigames.EndGameActivity;
+
 import rock.ankigames.Helper;
+import rock.ankigames.Preferences.PreferencesHelper;
 import rock.ankigames.R;
 
 
 public class MatchGame extends Activity {
 
     ArrayList<NoteInfo> _notes;
+    long _startTime;
 
     MatchWordTextView[] _cardViewElements = new MatchWordTextView[12];
 
@@ -35,10 +38,18 @@ public class MatchGame extends Activity {
         initCardViewElements();
 
         showNotes();
+
+        _startTime = Calendar.getInstance().getTimeInMillis();
     }
 
     private void end(){
-        Helper.endGame(this, Helper.GameType.match);
+        int result = (int)(Calendar.getInstance().getTimeInMillis() - _startTime);
+        int best = PreferencesHelper.getRecordMatch();
+
+        Helper.endGame(this, Helper.GameType.match, result, best);
+
+        if (best < result)
+            PreferencesHelper.setRecordMatch(result);
     }
 
     private void initCardViewElements(){
