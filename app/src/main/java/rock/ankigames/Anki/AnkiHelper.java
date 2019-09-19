@@ -200,4 +200,11 @@ import java.util.Random;
         return words;
     }
 
+    public static int getCountNotes(){
+        return _notes.size();
+    }
+
+    public static NoteInfo getNoteByNum(int p){
+        return _notes.get(p);
+    }
 }

@@ -88,8 +88,8 @@ public class MainActivity extends Activity implements ActivityCompat.OnRequestPe
         Helper.startGame(this, getCurrentDeckName(), Helper.GameType.match);
     }
 
-    public void OnClickVievCardsGame(View v){
-        Helper.startGame(this, getCurrentDeckName(), Helper.GameType.match);
+    public void OnClickViewGame(View v){
+        Helper.startGame(this, getCurrentDeckName(), Helper.GameType.cardView);
     }
 
 }

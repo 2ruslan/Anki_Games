@@ -3,6 +3,20 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ViewCardsGame.CardViewGame">
+    tools:context=".ViewCardsGame.CardViewGame"
+    android:orientation="vertical"
+    >
+
+    <TextView
+        android:id="@+id/tvViewCard"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center"
+        android:textSize="42dp"
+        android:onClick="OnClickShowReverse"
+        >
+
+    </TextView>
+
 
 </LinearLayout>
