@@ -5,9 +5,13 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.TextView;
 
+import java.util.Calendar;
+
 import rock.ankigames.Anki.AnkiHelper;
 import rock.ankigames.Anki.NoteInfo;
 import rock.ankigames.Common.OnSwipeTouchListener;
+import rock.ankigames.Helper;
+import rock.ankigames.Preferences.PreferencesHelper;
 import rock.ankigames.R;
 
 public class CardViewGame extends Activity {
@@ -40,7 +44,12 @@ public class CardViewGame extends Activity {
                 _pos++;
                 showCard();
             }
-    });
+            @Override
+            public void onTap() {
+                showReverse();
+            }
+
+        });
 
         start();
     }
@@ -67,7 +76,11 @@ public class CardViewGame extends Activity {
         _view.setText(_isReverse ? _note.getAnswer() : _note.getQuestion() );
     }
 
-    public void OnClickShowReverse(View v){
-        showReverse();
+    private void end(){
+        Helper.endGame(this, Helper.GameType.cardView);
+    }
+
+    public void OnClickEnd(View v){
+        end();
     }
 }
