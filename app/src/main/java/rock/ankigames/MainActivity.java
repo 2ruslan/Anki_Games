@@ -1,6 +1,7 @@
 package rock.ankigames;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatDelegate;
 import androidx.core.app.ActivityCompat;
 
 import android.app.Activity;
@@ -90,6 +91,22 @@ public class MainActivity extends Activity implements ActivityCompat.OnRequestPe
 
     public void OnClickViewGame(View v){
         Helper.startGame(this, getCurrentDeckName(), Helper.GameType.cardView);
+    }
+
+    public void OnClickDayMode(View v){
+        AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
+
+    }
+
+    public void OnClickAutoMode(View v){
+        AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_AUTO);
+
+    }
+
+    public void OnClickNightMode(View v){
+        AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
+
+
     }
 
 }
