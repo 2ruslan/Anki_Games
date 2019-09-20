@@ -1,10 +1,10 @@
 package rock.ankigames;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.app.AppCompatDelegate;
 import androidx.core.app.ActivityCompat;
 
-import android.app.Activity;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.view.View;
@@ -17,7 +17,7 @@ import java.util.ArrayList;
 import rock.ankigames.Anki.AnkiHelper;
 import rock.ankigames.Preferences.PreferencesHelper;
 
-public class MainActivity extends Activity implements ActivityCompat.OnRequestPermissionsResultCallback {
+public class MainActivity extends AppCompatActivity implements ActivityCompat.OnRequestPermissionsResultCallback {
 
     private static final int AD_PERM_REQUEST = 0;
     Spinner spinnerDeck;
@@ -27,7 +27,6 @@ public class MainActivity extends Activity implements ActivityCompat.OnRequestPe
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        PreferencesHelper.init(this);
 
         spinnerDeck = findViewById(R.id.spDeck);
 
@@ -94,19 +93,21 @@ public class MainActivity extends Activity implements ActivityCompat.OnRequestPe
     }
 
     public void OnClickDayMode(View v){
-        AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
-
+        applyDayNightMode(AppCompatDelegate.MODE_NIGHT_NO);
     }
 
     public void OnClickAutoMode(View v){
-        AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_AUTO);
-
+        applyDayNightMode(AppCompatDelegate.MODE_NIGHT_AUTO);
     }
 
     public void OnClickNightMode(View v){
-        AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
-
-
+        applyDayNightMode(AppCompatDelegate.MODE_NIGHT_YES);
     }
 
+
+    private void applyDayNightMode(int m){
+        AppCompatDelegate.setDefaultNightMode(m);
+        getDelegate().applyDayNight();
+        PreferencesHelper.setDayNightMode(m);
+    }
 }

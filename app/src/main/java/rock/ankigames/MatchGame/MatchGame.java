@@ -12,6 +12,7 @@ import java.util.Random;
 import rock.ankigames.Anki.AnkiHelper;
 import rock.ankigames.Anki.NoteInfo;
 
+import rock.ankigames.Common.Common;
 import rock.ankigames.Helper;
 import rock.ankigames.Preferences.PreferencesHelper;
 import rock.ankigames.R;
@@ -48,7 +49,7 @@ public class MatchGame extends Activity {
 
         Helper.endGame(this, Helper.GameType.match, result, best);
 
-        if (result < best || best == PreferencesHelper._NO_INT_VALUE)
+        if (result < best || best == Common._NO_INT_VALUE)
             PreferencesHelper.setRecordMatch(result);
     }
 
@@ -81,8 +82,15 @@ public class MatchGame extends Activity {
     private void showNotes(){
         int pos = 0;
         for(NoteInfo i : _notes){
-            _cardViewElements[pos++].setAnkiNote(i, true);
-            _cardViewElements[pos++].setAnkiNote(i, false);
+            if (i != null) {
+                _cardViewElements[pos++].setAnkiNote(i, true);
+                _cardViewElements[pos++].setAnkiNote(i, false);
+            }
+            else
+            {
+                _cardViewElements[pos++].setVisibility(View.INVISIBLE);
+                _cardViewElements[pos++].setVisibility(View.INVISIBLE);
+            }
         }
     }
 

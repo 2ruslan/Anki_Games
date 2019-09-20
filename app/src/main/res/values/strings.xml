@@ -1,3 +1,13 @@
 <resources>
     <string name="app_name">AnkiGames</string>
+
+    <string name="match">Match</string>
+    <string name="view">View</string>
+
+    <string name="play">Play</string>
+    <string name="end">End</string>
+
+    <string name="best_result">best result</string>
+    <string name="current_result">current result</string>
+
 </resources>

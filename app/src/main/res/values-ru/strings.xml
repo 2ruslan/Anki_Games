@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">AnkiGames</string>
+
+    <string name="match">Сопоставить</string>
+    <string name="view">Просмотреть</string>
+
+    <string name="play">Играть</string>
+    <string name="end">Закончить</string>
+
+    <string name="best_result">Лучший результат</string>
+    <string name="current_result">Результат</string>
+
+</resources>

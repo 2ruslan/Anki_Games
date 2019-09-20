@@ -29,10 +29,6 @@ import java.util.Random;
         mContext = c;
         initDecks();
         initModels();
-
-        initNotes("English with Mary");
-
-        getRandomNotes(7);
     }
 
     public static void OnDestroy(){
@@ -178,24 +174,33 @@ import java.util.Random;
         ArrayList<NoteInfo> words = new ArrayList<>();
 
         int[] rnds = new int[qnt];
-        for (int i = 0; i < qnt; i++) {
-            boolean flg;
-            do {
-                int r = _rand.nextInt(_notes.size());
 
-                flg = true;
-                for (int k = 0; k < i; k++)
-                    if (rnds[k] == r)
-                        flg = false;
+        if (qnt < _notes.size()) {
+            for (int i = 0; i < qnt; i++) {
+                boolean flg;
+                do {
+                    int r = _rand.nextInt(_notes.size());
 
-                if (flg)
-                    rnds[i] = r;
+                    flg = true;
+                    for (int k = 0; k < i; k++)
+                        if (rnds[k] == r)
+                            flg = false;
 
-            }while (!flg);
+                    if (flg)
+                        rnds[i] = r;
+
+                } while (!flg);
+            }
+            for (int i = 0; i < qnt; i++)
+                words.add(_notes.get(rnds[i]));
         }
-
-        for (int i = 0; i < qnt; i++)
-            words.add(_notes.get(rnds[i]));
+        else
+        {
+            for (int i = 0; i < _notes.size(); i++)
+                words.add(_notes.get(i));
+            for (int i = _notes.size(); i< qnt; i++)
+                words.add(null);
+        }
 
         return words;
     }

@@ -10,6 +10,7 @@ import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 
 import rock.ankigames.Anki.AnkiHelper;
+import rock.ankigames.Common.Common;
 import rock.ankigames.MatchGame.MatchGame;
 import rock.ankigames.Preferences.PreferencesHelper;
 import rock.ankigames.ViewCardsGame.CardViewGame;
@@ -58,7 +59,7 @@ public class Helper {
     }
 
     public static void endGame(Activity a, GameType g){
-        endGame(a, g, PreferencesHelper._NO_INT_VALUE, PreferencesHelper._NO_INT_VALUE);
+        endGame(a, g, Common._NO_INT_VALUE, Common._NO_INT_VALUE);
     }
 
     public static void endGame(Activity a, GameType g, int timeResult, int timeBest){

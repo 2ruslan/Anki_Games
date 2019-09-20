@@ -4,13 +4,24 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
+    android:background="@color/colorBackground"
     tools:context=".MainActivity">
 
-    <Spinner
-        android:id="@+id/spDeck"
-        android:layout_margin="4dp"
+
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:background="@drawable/match_back_normal"
+        android:layout_margin="4dp"
+        android:padding="4dp"
+        >
+            <Spinner
+                android:id="@+id/spDeck"
+                android:layout_margin="4dp"
+                android:padding="4dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"/>
+    </LinearLayout>
 
         />
 
@@ -24,60 +35,65 @@
 
     <Button
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Match"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:text="@string/match"
         android:onClick="OnClickMatchGame"
-        android:layout_margin="4dp"
+        style="@style/ButtonStyle"
         />
 
     <Button
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="View"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:text="@string/view"
         android:onClick="OnClickViewGame"
-        android:layout_margin="4dp"
+        style="@style/ButtonStyle"
         />
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="1"
+        android:layout_weight="2"
 
         >
 
     </LinearLayout>
 
     <LinearLayout
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
+        android:layout_gravity="center"
+        android:background="@drawable/match_back_normal"
+        android:layout_margin="4dp"
+        android:padding="4dp"
     >
         <Button
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:background="@drawable/sun"
             android:onClick="OnClickDayMode"
-                />
+            android:layout_margin="8dp"
+            android:padding="8dp"
+            />
         <Button
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:background="@drawable/day"
             android:onClick="OnClickAutoMode"
+            android:layout_margin="8dp"
+            android:padding="8dp"
             />
         <Button
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:background="@drawable/night"
             android:onClick="OnClickNightMode"
+            android:layout_margin="8dp"
+            android:padding="8dp"
             />
     </LinearLayout>
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1"
-        >
-
-    </LinearLayout>
 
 </LinearLayout>

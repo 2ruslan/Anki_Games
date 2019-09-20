@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.TextView;
 
+import rock.ankigames.Common.Common;
 import rock.ankigames.Preferences.PreferencesHelper;
 
 public class EndGameActivity extends AppCompatActivity {
@@ -25,22 +26,22 @@ public class EndGameActivity extends AppCompatActivity {
 
         Intent intent = getIntent();
 
-        int p = intent.getIntExtra(_GAME_TYPE, PreferencesHelper._NO_INT_VALUE);
+        int p = intent.getIntExtra(_GAME_TYPE, Common._NO_INT_VALUE);
 
-        int gt = intent.getIntExtra(_GAME_TIME, PreferencesHelper._NO_INT_VALUE);
-        int rt = intent.getIntExtra(_RECORD_TIME, PreferencesHelper._NO_INT_VALUE);
+        int gt = intent.getIntExtra(_GAME_TIME, Common._NO_INT_VALUE);
+        int rt = intent.getIntExtra(_RECORD_TIME, Common._NO_INT_VALUE);
 
         StringBuilder sb = new StringBuilder();
 
-        if (gt != PreferencesHelper._NO_INT_VALUE)
-            sb.append("результат сейчас " + Math.round(gt / 10) / 100.0  + "\n");
-        if (rt != PreferencesHelper._NO_INT_VALUE)
-            sb.append("супер результат " + Math.round(rt / 10)  / 100.0 + "\n");
+        if (gt != Common._NO_INT_VALUE)
+            sb.append(getResources().getString(R.string.current_result) + " : "+ Math.round(gt / 10) / 100.0  + "\n");
+        if (rt != Common._NO_INT_VALUE)
+            sb.append(getResources().getString(R.string.best_result) + " : " + Math.round(rt / 10)  / 100.0 + "\n");
 
         ((TextView)findViewById(R.id.tvInfo)).setText(sb.toString());
 
 
-        if (p != PreferencesHelper._NO_INT_VALUE )
+        if (p != Common._NO_INT_VALUE )
             _gameType = Helper.GameType.values()[p];
         else
             OnClickEnd(null);
