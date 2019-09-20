@@ -76,11 +76,4 @@ public class CardViewGame extends Activity {
         _view.setText(_isReverse ? _note.getAnswer() : _note.getQuestion() );
     }
 
-    private void end(){
-        Helper.endGame(this, Helper.GameType.cardView);
-    }
-
-    public void OnClickEnd(View v){
-        end();
-    }
 }
