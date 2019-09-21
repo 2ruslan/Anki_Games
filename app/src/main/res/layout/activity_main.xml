@@ -62,36 +62,56 @@
 
     <LinearLayout
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_height="38dp"
         android:orientation="horizontal"
         android:layout_gravity="center"
         android:background="@drawable/match_back_normal"
         android:layout_margin="4dp"
         android:padding="4dp"
     >
-        <Button
-            android:layout_width="40dp"
-            android:layout_height="40dp"
-            android:background="@drawable/sun"
+        <ToggleButton
+            android:id="@+id/tbSun"
+            android:layout_width="28dp"
+            android:layout_height="28dp"
+            android:layout_gravity="center"
+            android:background="@drawable/toogle_selector_sun"
             android:onClick="OnClickDayMode"
-            android:layout_margin="8dp"
-            android:padding="8dp"
+            android:checked="true"
+            android:text=""
+            android:textOff=""
+            android:textOn=""
             />
-        <Button
-            android:layout_width="40dp"
-            android:layout_height="40dp"
-            android:background="@drawable/day"
+
+        <Space
+            android:layout_width="10dp"
+            android:layout_height="match_parent"/>
+
+        <ToggleButton
+            android:id="@+id/tbDay"
+            android:layout_width="28dp"
+            android:layout_height="28dp"
+            android:layout_gravity="center"
+            android:background="@drawable/toogle_selector_day"
             android:onClick="OnClickAutoMode"
-            android:layout_margin="8dp"
-            android:padding="8dp"
+            android:text=""
+            android:textOff=""
+            android:textOn=""
             />
-        <Button
-            android:layout_width="40dp"
-            android:layout_height="40dp"
-            android:background="@drawable/night"
+
+        <Space
+            android:layout_width="10dp"
+            android:layout_height="match_parent"/>
+
+        <ToggleButton
+            android:id="@+id/tbNight"
+            android:layout_width="28dp"
+            android:layout_height="28dp"
+            android:layout_gravity="center"
+            android:background="@drawable/toogle_selector_night"
             android:onClick="OnClickNightMode"
-            android:layout_margin="8dp"
-            android:padding="8dp"
+            android:text=""
+            android:textOff=""
+            android:textOn=""
             />
     </LinearLayout>
 

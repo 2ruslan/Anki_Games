@@ -11,6 +11,7 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Spinner;
+import android.widget.ToggleButton;
 
 import java.util.ArrayList;
 
@@ -22,6 +23,10 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
     private static final int AD_PERM_REQUEST = 0;
     Spinner spinnerDeck;
 
+    ToggleButton tbNight;
+    ToggleButton tbDay;
+    ToggleButton tbSun;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -29,6 +34,11 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
 
 
         spinnerDeck = findViewById(R.id.spDeck);
+        tbNight = findViewById(R.id.tbNight);
+        tbDay = findViewById(R.id.tbDay);
+        tbSun = findViewById(R.id.tbSun);
+
+        indicateDayNight(PreferencesHelper.getDayNightMode());
 
         if (Helper.shouldRequestPermission(this)) {
             Helper.requestPermission(MainActivity.this, AD_PERM_REQUEST);
@@ -109,5 +119,24 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
         AppCompatDelegate.setDefaultNightMode(m);
         getDelegate().applyDayNight();
         PreferencesHelper.setDayNightMode(m);
+        indicateDayNight(m);
+    }
+
+    private void indicateDayNight(int m){
+        if (m == AppCompatDelegate.MODE_NIGHT_YES){
+            tbNight.setChecked(true);
+            tbSun.setChecked(false);
+            tbDay.setChecked(false);
+        }
+        else if (m == AppCompatDelegate.MODE_NIGHT_AUTO){
+            tbNight.setChecked(false);
+            tbSun.setChecked(false);
+            tbDay.setChecked(true);
+        }
+        else if (m == AppCompatDelegate.MODE_NIGHT_NO){
+            tbNight.setChecked(false);
+            tbSun.setChecked(true);
+            tbDay.setChecked(false);
+        }
     }
 }
