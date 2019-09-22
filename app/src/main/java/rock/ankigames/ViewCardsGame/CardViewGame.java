@@ -45,6 +45,10 @@ public class CardViewGame extends Activity {
                 showCard();
             }
             @Override
+            public void onSwipeTop(){
+                finish();
+            }
+            @Override
             public void onTap() {
                 showReverse();
             }

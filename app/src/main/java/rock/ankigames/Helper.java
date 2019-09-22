@@ -19,6 +19,8 @@ import static com.ichi2.anki.api.AddContentApi.READ_WRITE_PERMISSION;
 
 public class Helper {
 
+    public static final String _ANKI_DROID = "com.ichi2.anki";
+;
     public static boolean shouldRequestPermission(Context c) {
         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.M) {
             return false;
@@ -28,6 +30,16 @@ public class Helper {
 
     public static void requestPermission(Activity callbackActivity, int callbackCode) {
         ActivityCompat.requestPermissions(callbackActivity, new String[]{READ_WRITE_PERMISSION}, callbackCode);
+    }
+
+    public static boolean checkInstallAnkiDroid(Context c){
+        PackageManager pm = c.getPackageManager();
+        try {
+            pm.getPackageInfo(_ANKI_DROID, PackageManager.GET_ACTIVITIES);
+            return true;
+        } catch (PackageManager.NameNotFoundException e) {
+            return false;
+        }
     }
 
     public enum GameType{

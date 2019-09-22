@@ -90,6 +90,9 @@ import java.util.Random;
         decksCursor.close();
     }
 
+    private static final String _back = "Back";
+     private static final String _front = "Front";
+
     private static void setAQ2model(ModelInfo m) {
         ContentResolver mResolver = mContext.getContentResolver();
 
@@ -109,34 +112,39 @@ import java.util.Random;
 
             int pos, pose;
 
-            pos = q.indexOf("{{");
-            pose = q.indexOf("}}", pos);
-            m.setQuestField(q.substring(pos + 2, pose));
+            if (a.contains( "{{" +  _back + "}}" )){
+                m.setAnswerField(_back);
+            }
+            else{
+                pos = a.indexOf("<hr id=answer>");
+
+                if (pos == -1)
+                    pos = a.indexOf("{{FrontSide}}");
+
+                if (pos >= 0)
+                    pos += 13;
 
 
-            pos = a.indexOf("<hr id=answer>");
-
-            if (pos == -1)
-                 pos = a.indexOf("{{FrontSide}}");
-
-            if (pos >= 0)
-                pos += 13;
-
-
-            pos = a.indexOf("{{", pos);
-            pose = a.indexOf("}}", pos);
-            m.setAnswerField(a.substring(pos + 2, pose));
-
-            if (m.getQuestFieldNum() == m.getAnswerFieldNum()){
-                pos = a.indexOf("{{", pose);
+                pos = a.indexOf("{{", pos);
                 pose = a.indexOf("}}", pos);
                 m.setAnswerField(a.substring(pos + 2, pose));
+
+                if (m.getQuestFieldNum() == m.getAnswerFieldNum()){
+                    pos = a.indexOf("{{", pose);
+                    pose = a.indexOf("}}", pos);
+                    m.setAnswerField(a.substring(pos + 2, pose));
+                }
             }
 
 
-
-
-
+            if (q.contains("{{" + _front+ "}}")){
+                m.setQuestField(_front);
+            }
+            else {
+                pos = q.indexOf("{{");
+                pose = q.indexOf("}}", pos);
+                m.setQuestField(q.substring(pos + 2, pose));
+            }
         }
 
         decksCursor.close();

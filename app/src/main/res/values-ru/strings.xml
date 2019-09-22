@@ -11,4 +11,10 @@
     <string name="best_result">Лучший результат</string>
     <string name="current_result">Результат</string>
 
+    <string name="no_anki_droid_msg">Для продолжения необходимо установить AnkiDroid</string>
+
+    <string name="day_night_mode_day">установлен дневной режим</string>
+    <string name="day_night_mode_night">установлен ночной режим</string>
+    <string name="day_night_mode_auto">установлен авноматический режим день-ночь</string>
+
 </resources>

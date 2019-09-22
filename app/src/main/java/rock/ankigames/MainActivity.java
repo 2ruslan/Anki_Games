@@ -5,12 +5,17 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.app.AppCompatDelegate;
 import androidx.core.app.ActivityCompat;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Spinner;
+import android.widget.Toast;
 import android.widget.ToggleButton;
 
 import java.util.ArrayList;
@@ -32,7 +37,6 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-
         spinnerDeck = findViewById(R.id.spDeck);
         tbNight = findViewById(R.id.tbNight);
         tbDay = findViewById(R.id.tbDay);
@@ -40,12 +44,29 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
 
         indicateDayNight(PreferencesHelper.getDayNightMode());
 
-        if (Helper.shouldRequestPermission(this)) {
-            Helper.requestPermission(MainActivity.this, AD_PERM_REQUEST);
+        if (!Helper.checkInstallAnkiDroid(this)){
+            AlertDialog.Builder builder = new AlertDialog.Builder(this);
+            builder.setMessage(R.string.no_anki_droid_msg)
+                    .setTitle("!!!")
+                    .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int id) {
+                            try {
+                                startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("market://details?id=" + Helper._ANKI_DROID)));
+                            } catch (android.content.ActivityNotFoundException anfe) {
+                                startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("https://play.google.com/store/apps/details?id=" + Helper._ANKI_DROID)));
+                            }
+                            finish();
+                        }
+                    });
+            AlertDialog dialog = builder.create();
+            dialog.show();
         }
-        else
-        {
-            start();
+        else {
+            if (Helper.shouldRequestPermission(this)) {
+                Helper.requestPermission(MainActivity.this, AD_PERM_REQUEST);
+            } else {
+                start();
+            }
         }
     }
 
@@ -103,23 +124,25 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
     }
 
     public void OnClickDayMode(View v){
-        applyDayNightMode(AppCompatDelegate.MODE_NIGHT_NO);
+        applyDayNightMode(AppCompatDelegate.MODE_NIGHT_NO, getResources().getString(R.string.day_night_mode_day));
     }
 
     public void OnClickAutoMode(View v){
-        applyDayNightMode(AppCompatDelegate.MODE_NIGHT_AUTO);
+        applyDayNightMode(AppCompatDelegate.MODE_NIGHT_AUTO, getResources().getString(R.string.day_night_mode_auto));
     }
 
     public void OnClickNightMode(View v){
-        applyDayNightMode(AppCompatDelegate.MODE_NIGHT_YES);
+        applyDayNightMode(AppCompatDelegate.MODE_NIGHT_YES, getResources().getString(R.string.day_night_mode_night));
     }
 
 
-    private void applyDayNightMode(int m){
+    private void applyDayNightMode(int m, String msg){
         AppCompatDelegate.setDefaultNightMode(m);
         getDelegate().applyDayNight();
         PreferencesHelper.setDayNightMode(m);
         indicateDayNight(m);
+
+        Toast.makeText(this, msg, Toast.LENGTH_SHORT).show();
     }
 
     private void indicateDayNight(int m){

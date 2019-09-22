@@ -10,4 +10,10 @@
     <string name="best_result">best result</string>
     <string name="current_result">current result</string>
 
+    <string name="no_anki_droid_msg">To continue, you must install AnkiDroid</string>
+
+    <string name="day_night_mode_day">set day mode</string>
+    <string name="day_night_mode_night">set night mode</string>
+    <string name="day_night_mode_auto">set day/night auto mode</string>
+
 </resources>

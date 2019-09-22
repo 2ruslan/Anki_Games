@@ -10,10 +10,12 @@ import rock.ankigames.Preferences.PreferencesHelper;
 public class AnkiGamesApplications extends Application {
     public void onCreate() {
         super.onCreate();
+
         PreferencesHelper.init(this);
 
         int m = PreferencesHelper.getDayNightMode();
         if (m != Common._NO_INT_VALUE)
             AppCompatDelegate.setDefaultNightMode(m);
+
     }
 }
