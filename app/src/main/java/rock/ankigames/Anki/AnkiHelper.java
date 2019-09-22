@@ -238,4 +238,13 @@ import java.util.Random;
     public static NoteInfo getNoteByNum(int p){
         return _notes.get(p);
     }
+
+    public static ArrayList<NoteInfo> getAllNotes(){
+        ArrayList<NoteInfo> res = new ArrayList<NoteInfo>();
+        int qnt = _notes.size() - 1;
+        for (int i = 0; i < qnt; i++)
+            res.add(_notes.get(i));
+
+        return res;
+     }
 }

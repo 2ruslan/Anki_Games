@@ -20,7 +20,7 @@ import static com.ichi2.anki.api.AddContentApi.READ_WRITE_PERMISSION;
 public class Helper {
 
     public static final String _ANKI_DROID = "com.ichi2.anki";
-;
+
     public static boolean shouldRequestPermission(Context c) {
         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.M) {
             return false;
@@ -82,4 +82,5 @@ public class Helper {
         a.startActivity(i);
         a.finish();
     }
+
 }

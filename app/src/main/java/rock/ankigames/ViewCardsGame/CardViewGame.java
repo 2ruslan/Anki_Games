@@ -1,26 +1,29 @@
 package rock.ankigames.ViewCardsGame;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
-import android.view.View;
 import android.widget.TextView;
-
-import java.util.Calendar;
 
 import rock.ankigames.Anki.AnkiHelper;
 import rock.ankigames.Anki.NoteInfo;
+import rock.ankigames.Common.Common;
 import rock.ankigames.Common.OnSwipeTouchListener;
-import rock.ankigames.Helper;
 import rock.ankigames.Preferences.PreferencesHelper;
 import rock.ankigames.R;
 
 public class CardViewGame extends Activity {
+
+    public static final int _REQUEST_POS = 123;
+
 
     int _count;
     int _pos;
     NoteInfo _note;
     TextView _view;
     boolean _isReverse;
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,6 +52,11 @@ public class CardViewGame extends Activity {
                 finish();
             }
             @Override
+            public void onSwipeBottom(){
+                showList();
+            }
+
+            @Override
             public void onTap() {
                 showReverse();
             }
@@ -60,7 +68,12 @@ public class CardViewGame extends Activity {
 
     private void start(){
         _count = AnkiHelper.getCountNotes();
-        _pos = _count - 1;
+
+        _pos = PreferencesHelper.getNoteViewPos();
+
+        if (_pos == Common._POS_END || _pos > _count)
+            _pos = _count - 1;
+
         showCard();
     }
 
@@ -69,6 +82,8 @@ public class CardViewGame extends Activity {
             _pos = 0;
         if (_pos >= _count)
             _pos = _count - 1;
+
+        PreferencesHelper.setNoteViewPos(_pos);
 
         _note = AnkiHelper.getNoteByNum(_pos);
         _isReverse = true;
@@ -80,4 +95,18 @@ public class CardViewGame extends Activity {
         _view.setText(_isReverse ? _note.getAnswer() : _note.getQuestion() );
     }
 
+
+    private void showList(){
+        startActivityForResult(new Intent(this, CardViewListGame.class), _REQUEST_POS);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (requestCode == _REQUEST_POS) {
+            _pos = PreferencesHelper.getNoteViewPos();
+            showCard();
+        }
+
+
+    }
 }

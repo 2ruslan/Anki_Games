@@ -16,10 +16,12 @@ public class PreferencesHelper {
     public static final String DEFAULT_DECK = "DEFAULT_DECK";
     public static final String RECORD_MATCH = "RECORD_MATCH";
     public static final String DAY_NIGHT_MODE = "DAY_NIGHT_MODE";
+    public static final String NOTE_VIEW_POS = "DAY_NIGHT_MODE";
 
     private static PreferenceValue _defaultDeck;
     private static PreferenceValue _recordMatch;
     private static PreferenceValue _dayNightMode;
+    private static PreferenceValue _noteViewPos;
 
 
     public static void init(Context context) {
@@ -28,8 +30,11 @@ public class PreferencesHelper {
         _defaultDeck = new PreferenceValue(mSettings, DEFAULT_DECK, Common._NO_VALUE);
         _recordMatch = new PreferenceValue(mSettings, RECORD_MATCH, Common._NO_INT_VALUE);
         _dayNightMode = new PreferenceValue(mSettings, DAY_NIGHT_MODE, Common._NO_INT_VALUE);
+        _noteViewPos= new PreferenceValue(mSettings, NOTE_VIEW_POS, Common._POS_END);
 
     }
+
+
 
     //region DEFAULT_DECK
     public static void setDefaultDeck(String val) {
@@ -60,4 +65,17 @@ public class PreferencesHelper {
         return _dayNightMode.getInt();
     }
     //endregion DAY_NIGHT_MODE
+
+
+    //region NOTE_VIEW_POS
+    public static void setNoteViewPos(int val) {
+        _noteViewPos.setInt(val);
+    }
+
+    public static int getNoteViewPos() {
+        return _noteViewPos.getInt();
+    }
+    //endregion NOTE_VIEW_POS
+
+
 }
