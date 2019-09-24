@@ -11,7 +11,7 @@
     <string name="current_result">current result</string>
 
     <string name="no_anki_droid_msg">To continue, you must install AnkiDroid</string>
-    <string name="no_anki_no_decks">Anki don't have decks</string>
+    <string name="no_anki_no_decks">Anki don`t have decks</string>
 
     no_anki_droid_msg
 
