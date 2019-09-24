@@ -21,6 +21,7 @@ import android.widget.ToggleButton;
 import java.util.ArrayList;
 
 import rock.ankigames.Anki.AnkiHelper;
+import rock.ankigames.Common.Common;
 import rock.ankigames.Preferences.PreferencesHelper;
 
 public class MainActivity extends AppCompatActivity implements ActivityCompat.OnRequestPermissionsResultCallback {
@@ -111,8 +112,14 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
 
     }
 
-    private String getCurrentDeckName(){
-        return spinnerDeck.getSelectedItem().toString();
+    private String getCurrentDeckName() {
+        String result;
+        try {
+            result = spinnerDeck.getSelectedItem().toString();
+        }catch (Exception e){
+            result = Common._NO_VALUE;
+        }
+        return result;
     }
 
     public void OnClickMatchGame(View v){

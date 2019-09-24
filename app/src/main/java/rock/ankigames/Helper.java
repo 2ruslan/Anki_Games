@@ -1,9 +1,12 @@
 package rock.ankigames;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.net.Uri;
 import android.os.Build;
 
 import androidx.core.app.ActivityCompat;
@@ -61,13 +64,28 @@ public class Helper {
         startGame(c, _LAST_DECK, game);
     }
     public static void startGame(Context c, String deckName, GameType game){
-        if (!deckName.equals(_LAST_DECK))
-            AnkiHelper.initNotes(deckName);
 
-        if (game == GameType.match)
-            c.startActivity(new Intent(c, MatchGame.class));
-        else if (game == GameType.cardView)
-            c.startActivity(new Intent(c, CardViewGame.class));
+        if (deckName.equals(Common._NO_VALUE)){
+            AlertDialog.Builder builder = new AlertDialog.Builder(c);
+            builder.setMessage(R.string.no_anki_no_decks)
+                    .setTitle("!!!")
+                    .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int id) {
+
+                        }
+                    });
+            AlertDialog dialog = builder.create();
+            dialog.show();
+        }
+        else {
+            if (!deckName.equals(_LAST_DECK))
+                AnkiHelper.initNotes(deckName);
+
+            if (game == GameType.match)
+                c.startActivity(new Intent(c, MatchGame.class));
+            else if (game == GameType.cardView)
+                c.startActivity(new Intent(c, CardViewGame.class));
+        }
     }
 
     public static void endGame(Activity a, GameType g){

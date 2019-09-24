@@ -12,6 +12,7 @@
     <string name="current_result">Результат</string>
 
     <string name="no_anki_droid_msg">Для продолжения необходимо установить AnkiDroid</string>
+    <string name="no_anki_no_decks">Anki не содержит колод!</string>
 
     <string name="day_night_mode_day">установлен дневной режим</string>
     <string name="day_night_mode_night">установлен ночной режим</string>
