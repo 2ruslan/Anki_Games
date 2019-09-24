@@ -14,7 +14,9 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Random;
 
- public class AnkiHelper {
+import rock.ankigames.Common.Common;
+
+public class AnkiHelper {
 
     private static Context mContext;
 
@@ -27,8 +29,10 @@ import java.util.Random;
 
     public static void init(Context c){
         mContext = c;
-        initDecks();
-        initModels();
+        if (mContext != null) {
+            initDecks();
+            initModels();
+        }
     }
 
     public static void OnDestroy(){
@@ -152,6 +156,9 @@ import java.util.Random;
 
     private static String _deckName = "!@#$%^&";
     public static void initNotes(String deckName) {
+
+        if(deckName == null || deckName.equals("") || deckName.equals(Common._NO_VALUE))
+            return;
 
         if (_deckName.equals(deckName))
             return;
