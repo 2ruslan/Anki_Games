@@ -34,6 +34,7 @@ public class MatchGame extends Activity {
     }
 
     private void start(){
+
         _notes = AnkiHelper.getRandomNotes(6);
 
         initCardViewElements();

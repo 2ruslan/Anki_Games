@@ -17,5 +17,6 @@
     <string name="day_night_mode_day">установлен дневной режим</string>
     <string name="day_night_mode_night">установлен ночной режим</string>
     <string name="day_night_mode_auto">установлен авноматический режим день-ночь</string>
+    <string name="no_cards_in_deck">В выбранной колоде нет карт</string>
 
 </resources>

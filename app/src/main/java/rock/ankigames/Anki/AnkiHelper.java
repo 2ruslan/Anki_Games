@@ -46,7 +46,11 @@ public class AnkiHelper {
 
      private static void initDecks() {
         ContentResolver mResolver = mContext.getContentResolver();
+
         _decks = new ArrayList<>();
+
+         if (mResolver == null)
+             return;
 
         Cursor decksCursor = mResolver.query(
                             FlashCardsContract.Deck.CONTENT_ALL_URI,
@@ -54,6 +58,10 @@ public class AnkiHelper {
                      null,
                   null,
                     null);
+
+        if (decksCursor == null)
+            return;
+
         if (decksCursor.moveToFirst()) {
 
             do {
@@ -70,12 +78,19 @@ public class AnkiHelper {
         ContentResolver mResolver = mContext.getContentResolver();
         _models = new HashMap<>();
 
+        if (mResolver == null)
+            return;
+
         Cursor decksCursor = mResolver.query(
                 FlashCardsContract.Model.CONTENT_URI,
                 null,
                 null,
                 null,
                 null);
+
+        if (decksCursor == null)
+            return;
+
         if (decksCursor.moveToFirst()) {
 
             do {
@@ -174,6 +189,9 @@ public class AnkiHelper {
                 "deck:\"" + deckName + "\"",
                 null,
                 null);
+        if (decksCursor == null)
+            return;
+
         if (decksCursor.moveToFirst()) {
 
             do {
@@ -205,6 +223,9 @@ public class AnkiHelper {
 
     public static ArrayList<NoteInfo> getRandomNotes(int qnt){
         ArrayList<NoteInfo> words = new ArrayList<>();
+
+        if (getCountNotes() == 0)
+            return words;
 
         int[] rnds = new int[qnt];
 
@@ -239,7 +260,7 @@ public class AnkiHelper {
     }
 
     public static int getCountNotes(){
-        return _notes.size();
+        return _notes == null ? 0 : _notes.size();
     }
 
     public static NoteInfo getNoteByNum(int p){
@@ -248,7 +269,8 @@ public class AnkiHelper {
 
     public static ArrayList<NoteInfo> getAllNotes(){
         ArrayList<NoteInfo> res = new ArrayList<NoteInfo>();
-        int qnt = _notes.size() - 1;
+
+        int qnt = getCountNotes() - 1;
         for (int i = 0; i < qnt; i++)
             res.add(_notes.get(i));
 

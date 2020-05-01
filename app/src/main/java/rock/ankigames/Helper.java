@@ -66,22 +66,15 @@ public class Helper {
     public static void startGame(Context c, String deckName, GameType game){
 
         if (deckName.equals(Common._NO_VALUE)){
-            AlertDialog.Builder builder = new AlertDialog.Builder(c);
-            builder.setMessage(R.string.no_anki_no_decks)
-                    .setTitle("!!!")
-                    .setPositiveButton("OK", new DialogInterface.OnClickListener() {
-                        public void onClick(DialogInterface dialog, int id) {
-
-                        }
-                    });
-            AlertDialog dialog = builder.create();
-            dialog.show();
+            showDialog(c, R.string.no_anki_no_decks);
         }
         else {
             if (!deckName.equals(_LAST_DECK))
                 AnkiHelper.initNotes(deckName);
 
-            if (game == GameType.match)
+            if (AnkiHelper.getCountNotes() == 0)
+                showDialog(c, R.string.no_cards_in_deck);
+            else if (game == GameType.match)
                 c.startActivity(new Intent(c, MatchGame.class));
             else if (game == GameType.cardView)
                 c.startActivity(new Intent(c, CardViewGame.class));
@@ -101,4 +94,17 @@ public class Helper {
         a.finish();
     }
 
+
+    private static void showDialog(Context c, int msgId){
+        AlertDialog.Builder builder = new AlertDialog.Builder(c);
+        builder.setMessage(msgId)
+                .setTitle("Anki Games")
+                .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+
+                    }
+                });
+        AlertDialog dialog = builder.create();
+        dialog.show();
+    }
 }
