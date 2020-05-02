@@ -218,6 +218,13 @@ public class AnkiHelper {
     private static String getCleanWord(String s){
         String result =  Jsoup.parse(s).text();
 
+        if (result !=null) {
+            int start = result.indexOf("[sound:");
+            if (start > 0) {
+                result = result.substring(0, start - 1);
+            }
+        }
+
         return result;
     }
 
