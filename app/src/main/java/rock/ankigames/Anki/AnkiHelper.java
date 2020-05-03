@@ -83,10 +83,10 @@ public class AnkiHelper {
 
         Cursor decksCursor = mResolver.query(
                 FlashCardsContract.Model.CONTENT_URI,
-                null,
-                null,
-                null,
-                null);
+                new String[0],
+                "",
+                new String[0],
+                "");
 
         if (decksCursor == null)
             return;
@@ -185,10 +185,10 @@ public class AnkiHelper {
 
         Cursor decksCursor = mResolver.query(
                 FlashCardsContract.Note.CONTENT_URI,
-                null,
+                new String[0],
                 "deck:\"" + deckName + "\"",
-                null,
-                null);
+                new String[0],
+                "");
         if (decksCursor == null)
             return;
 

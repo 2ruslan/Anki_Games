@@ -47,8 +47,9 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
 
         if (!Helper.checkInstallAnkiDroid(this)){
             AlertDialog.Builder builder = new AlertDialog.Builder(this);
+
             builder.setMessage(R.string.no_anki_droid_msg)
-                    .setTitle("!!!")
+                    .setTitle("Anki Games")
                     .setPositiveButton("OK", new DialogInterface.OnClickListener() {
                         public void onClick(DialogInterface dialog, int id) {
                             try {

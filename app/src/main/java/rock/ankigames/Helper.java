@@ -95,7 +95,7 @@ public class Helper {
     }
 
 
-    private static void showDialog(Context c, int msgId){
+    public static void showDialog(Context c, int msgId){
         AlertDialog.Builder builder = new AlertDialog.Builder(c);
         builder.setMessage(msgId)
                 .setTitle("Anki Games")
