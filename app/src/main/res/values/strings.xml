@@ -19,5 +19,7 @@
     <string name="day_night_mode_night">set night mode</string>
     <string name="day_night_mode_auto">set day/night auto mode</string>
     <string name="no_cards_in_deck">Selcted deck hasn\'t cards</string>
+    <string name="anki_power_mangment">AnkiDroid is stoped! Add AnkiDroid to background restrictions (power managment, etc)!</string>
+    <string name="bad_card_format">Unknown card format. Contact the developer by email at 2ruslank@gmail.com</string>
 
 </resources>

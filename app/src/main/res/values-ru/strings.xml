@@ -18,5 +18,7 @@
     <string name="day_night_mode_night">установлен ночной режим</string>
     <string name="day_night_mode_auto">установлен авноматический режим день-ночь</string>
     <string name="no_cards_in_deck">В выбранной колоде нет карт</string>
+    <string name="anki_power_mangment">AnkiDroid остановлен! Добавьте AnkiDroid к фоновым ограничениям (управление питанием и т.д.)!</string>
+    <string name="bad_card_format">Неизвестный формат карт. Свяжитесь с разработчиком по почте 2ruslank@gmail.com</string>
 
 </resources>

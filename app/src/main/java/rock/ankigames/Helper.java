@@ -69,8 +69,10 @@ public class Helper {
             showDialog(c, R.string.no_anki_no_decks);
         }
         else {
-            if (!deckName.equals(_LAST_DECK))
-                AnkiHelper.initNotes(deckName);
+            if (!deckName.equals(_LAST_DECK)) {
+                if (!AnkiHelper.initNotes(deckName))
+                    return;
+            }
 
             if (AnkiHelper.getCountNotes() == 0)
                 showDialog(c, R.string.no_cards_in_deck);

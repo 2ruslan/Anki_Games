@@ -15,6 +15,8 @@ import java.util.Map;
 import java.util.Random;
 
 import rock.ankigames.Common.Common;
+import rock.ankigames.Helper;
+import rock.ankigames.R;
 
 public class AnkiHelper {
 
@@ -30,8 +32,10 @@ public class AnkiHelper {
     public static void init(Context c){
         mContext = c;
         if (mContext != null) {
-            initDecks();
-            initModels();
+            if (!initDecks())
+                return;
+            if (!initModels())
+                return;
         }
     }
 
@@ -44,26 +48,41 @@ public class AnkiHelper {
         return _decks;
     }
 
-     private static void initDecks() {
-        ContentResolver mResolver = mContext.getContentResolver();
+    private static Cursor getDeckCursor(ContentResolver resolver){
+        return resolver.query(
+                FlashCardsContract.Deck.CONTENT_ALL_URI,
+                null,
+                null,
+                null,
+                null);
+    }
+
+     private static boolean initDecks() {
+        ContentResolver resolver = mContext.getContentResolver();
 
         _decks = new ArrayList<>();
 
-         if (mResolver == null)
-             return;
+         if (resolver == null)
+             return false;
 
-        Cursor decksCursor = mResolver.query(
-                            FlashCardsContract.Deck.CONTENT_ALL_URI,
-                    null,
-                     null,
-                  null,
-                    null);
+        Cursor decksCursor = null;
+        try {
+            decksCursor = getDeckCursor (resolver);
+        }
+        catch (Exception e0){
+            try{
+                Thread.sleep(1200);
+                decksCursor = getDeckCursor (resolver);
+            }
+            catch(Exception e1) {
+                Helper.showDialog(mContext, R.string.anki_power_mangment);
+            }
+        }
 
         if (decksCursor == null)
-            return;
+            return false;
 
         if (decksCursor.moveToFirst()) {
-
             do {
                 String deckName = decksCursor.getString(decksCursor.getColumnIndex(FlashCardsContract.Deck.DECK_NAME));
                 _decks.add(deckName);
@@ -72,30 +91,44 @@ public class AnkiHelper {
 
         decksCursor.close();
 
+        return true;
     }
 
-    private static void initModels() {
-        ContentResolver mResolver = mContext.getContentResolver();
-        _models = new HashMap<>();
-
-        if (mResolver == null)
-            return;
-
-        Cursor decksCursor = mResolver.query(
+    private static Cursor getModelCursor(ContentResolver resolver){
+        return resolver.query(
                 FlashCardsContract.Model.CONTENT_URI,
                 new String[0],
                 "",
                 new String[0],
                 "");
+    }
+    private static boolean initModels() {
+        ContentResolver resolver = mContext.getContentResolver();
+        _models = new HashMap<>();
 
-        if (decksCursor == null)
-            return;
+        if (resolver == null)
+            return false;
 
-        if (decksCursor.moveToFirst()) {
+        Cursor cursor = null;
+        try {
+            cursor = getModelCursor(resolver);
+        }catch (Exception e){
+            try{
+                Thread.sleep(1200);
+                cursor = getModelCursor(resolver);
+            }
+            catch (Exception e2) {
+                Helper.showDialog(mContext, R.string.anki_power_mangment);
+            }
+        }
 
+        if (cursor == null)
+            return false;
+
+        if (cursor.moveToFirst()) {
             do {
-                long modelId = decksCursor.getLong(decksCursor.getColumnIndex(FlashCardsContract.Model._ID));
-                String fields = decksCursor.getString(decksCursor.getColumnIndex(FlashCardsContract.Model.FIELD_NAMES));
+                long modelId = cursor.getLong(cursor.getColumnIndex(FlashCardsContract.Model._ID));
+                String fields = cursor.getString(cursor.getColumnIndex(FlashCardsContract.Model.FIELD_NAMES));
 
                 ModelInfo mm = new ModelInfo(modelId, fields.split(_DELIMITER ) );
 
@@ -103,101 +136,120 @@ public class AnkiHelper {
 
                 _models.put(modelId, mm);
 
-            } while (decksCursor.moveToNext());
+            } while (cursor.moveToNext());
         }
 
-        decksCursor.close();
+        cursor.close();
+
+        return true;
     }
 
     private static final String _back = "Back";
      private static final String _front = "Front";
 
     private static void setAQ2model(ModelInfo m) {
-        ContentResolver mResolver = mContext.getContentResolver();
+        try {
+            ContentResolver mResolver = mContext.getContentResolver();
 
-        Uri uri = Uri.withAppendedPath(FlashCardsContract.Model.CONTENT_URI, Long.toString(m.getId()));
-        Uri cardsUri = Uri.withAppendedPath(uri, "templates");
+            Uri uri = Uri.withAppendedPath(FlashCardsContract.Model.CONTENT_URI, Long.toString(m.getId()));
+            Uri cardsUri = Uri.withAppendedPath(uri, "templates");
 
-        Cursor decksCursor = mResolver.query(
-                cardsUri,
-                null,
-                null,
-                null,
-                null);
-        if (decksCursor.moveToFirst()) {
+            Cursor decksCursor = mResolver.query(
+                    cardsUri,
+                    null,
+                    null,
+                    null,
+                    null);
+            if (decksCursor.moveToFirst()) {
 
-            String a = decksCursor.getString(decksCursor.getColumnIndex(FlashCardsContract.CardTemplate.ANSWER_FORMAT));
-            String q = decksCursor.getString(decksCursor.getColumnIndex(FlashCardsContract.CardTemplate.QUESTION_FORMAT));
+                String a = decksCursor.getString(decksCursor.getColumnIndex(FlashCardsContract.CardTemplate.ANSWER_FORMAT));
+                String q = decksCursor.getString(decksCursor.getColumnIndex(FlashCardsContract.CardTemplate.QUESTION_FORMAT));
 
-            int pos, pose;
+                int pos, pose;
 
-            if (a.contains( "{{" +  _back + "}}" )){
-                m.setAnswerField(_back);
-            }
-            else{
-                pos = a.indexOf("<hr id=answer>");
+                if (a.contains("{{" + _back + "}}")) {
+                    m.setAnswerField(_back);
+                } else {
+                    pos = a.indexOf("<hr id=answer>");
 
-                if (pos == -1)
-                    pos = a.indexOf("{{FrontSide}}");
+                    if (pos == -1)
+                        pos = a.indexOf("{{FrontSide}}");
 
-                if (pos >= 0)
-                    pos += 13;
+                    if (pos >= 0)
+                        pos += 13;
 
 
-                pos = a.indexOf("{{", pos);
-                pose = a.indexOf("}}", pos);
-                m.setAnswerField(a.substring(pos + 2, pose));
-
-                if (m.getQuestFieldNum() == m.getAnswerFieldNum()){
-                    pos = a.indexOf("{{", pose);
+                    pos = a.indexOf("{{", pos);
                     pose = a.indexOf("}}", pos);
                     m.setAnswerField(a.substring(pos + 2, pose));
+
+                    if (m.getQuestFieldNum() == m.getAnswerFieldNum()) {
+                        pos = a.indexOf("{{", pose);
+                        pose = a.indexOf("}}", pos);
+                        m.setAnswerField(a.substring(pos + 2, pose));
+                    }
+                }
+
+
+                if (q.contains("{{" + _front + "}}")) {
+                    m.setQuestField(_front);
+                } else {
+                    pos = q.indexOf("{{");
+                    pose = q.indexOf("}}", pos);
+                    m.setQuestField(q.substring(pos + 2, pose));
                 }
             }
 
-
-            if (q.contains("{{" + _front+ "}}")){
-                m.setQuestField(_front);
-            }
-            else {
-                pos = q.indexOf("{{");
-                pose = q.indexOf("}}", pos);
-                m.setQuestField(q.substring(pos + 2, pose));
-            }
+            decksCursor.close();
         }
-
-        decksCursor.close();
+        catch (Exception  e){
+            Helper.showDialog(mContext, R.string.bad_card_format);
+        }
     }
 
     private static String _deckName = "!@#$%^&";
-    public static void initNotes(String deckName) {
-
-        if(deckName == null || deckName.equals("") || deckName.equals(Common._NO_VALUE))
-            return;
-
-        if (_deckName.equals(deckName))
-            return;
-
-        ContentResolver mResolver = mContext.getContentResolver();
-
-        _notes = new HashMap<>();
-        int pos = 0;
-
-        Cursor decksCursor = mResolver.query(
+    private static Cursor getNotesCursor(ContentResolver resolver, String deckName){
+        return resolver.query(
                 FlashCardsContract.Note.CONTENT_URI,
                 new String[0],
                 "deck:\"" + deckName + "\"",
                 new String[0],
                 "");
-        if (decksCursor == null)
-            return;
+    }
+    public static boolean initNotes(String deckName) {
 
-        if (decksCursor.moveToFirst()) {
+        if(deckName == null || deckName.equals("") || deckName.equals(Common._NO_VALUE))
+            return false;
 
+        if (_deckName.equals(deckName))
+            return true;
+
+        ContentResolver resolver = mContext.getContentResolver();
+
+        _notes = new HashMap<>();
+        int pos = 0;
+
+        Cursor cursor = null;
+        try {
+            cursor = getNotesCursor(resolver, deckName);
+        }
+        catch (Exception e){
+            try{
+                Thread.sleep(1200);
+                cursor = getNotesCursor(resolver, deckName);
+            }
+            catch (Exception e2) {
+                Helper.showDialog(mContext, R.string.anki_power_mangment);
+            }
+        }
+
+        if (cursor == null)
+            return false;
+
+        if (cursor.moveToFirst()) {
             do {
-
-                long mid = decksCursor.getLong(decksCursor.getColumnIndex(FlashCardsContract.Note.MID));
-                String fields = decksCursor.getString(decksCursor.getColumnIndex(FlashCardsContract.Note.FLDS));
+                long mid = cursor.getLong(cursor.getColumnIndex(FlashCardsContract.Note.MID));
+                String fields = cursor.getString(cursor.getColumnIndex(FlashCardsContract.Note.FLDS));
                 String[] flds = fields.split(_DELIMITER);
 
                 ModelInfo m = _models.get(mid);
@@ -209,10 +261,12 @@ public class AnkiHelper {
 
                 _notes.put(pos++, n);
 
-            } while (decksCursor.moveToNext());
+            } while (cursor.moveToNext());
         }
 
-        decksCursor.close();
+        cursor.close();
+
+        return true;
     }
 
     private static String getCleanWord(String s){
